@@ -2,11 +2,8 @@ from flask import Flask, render_template, request, redirect, url_for, flash
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
 from werkzeug.security import generate_password_hash, check_password_hash
 from waitress import serve
-from selenium import webdriver
-from selenium.webdriver.chrome.service import Service as ChromeService
-from selenium.webdriver.edge.service import Service as EdgeService
-from webdriver_manager.chrome import ChromeDriverManager
-from webdriver_manager.microsoft import EdgeChromiumDriverManager
+import subprocess
+import sys
 
 app = Flask(__name__)
 app.secret_key = 'your_secret_key'  # Change to a random secret key
@@ -63,22 +60,66 @@ def home():
         return render_template('index.html', message="URL opened in both browsers successfully!")
     return render_template('index.html', message="Enter a URL to open in Chrome and Edge.")
 
-# Add your browser control functions here
-def open_url_in_chrome(url):
-    service = ChromeService(ChromeDriverManager().install())
-    options = webdriver.ChromeOptions()
-    # Uncomment to run headless
-    # options.add_argument('--headless')
-    driver = webdriver.Chrome(service=service, options=options)
-    driver.get(url)
 
 def open_url_in_edge(url):
-    service = EdgeService(EdgeChromiumDriverManager().install())
-    options = webdriver.EdgeOptions()
-    # Uncomment to run headless
-    # options.add_argument('--headless')
-    driver = webdriver.Edge(service=service, options=options)
-    driver.get(url)
+    """
+    Opens a URL in Microsoft Edge using a Bash command.
+    
+    Args:
+    url (str): The URL to open.
+    """
+    try:
+        # Command to open Microsoft Edge with the specified URL
+        command = f"start msedge {url}"
+        # Execute the command using subprocess
+        subprocess.run(command, shell=True, check=True)
+        print("URL opened successfully in Microsoft Edge.")
+    except subprocess.CalledProcessError as e:
+        # Handle cases where the subprocess call fails
+        print(f"Failed to open URL: {e}")
+    except Exception as e:
+        # Handle other exceptions
+        print(f"An error occurred: {e}")
+
+def open_url_in_edge(url):
+    """
+    Opens a URL in Microsoft Edge using a Bash command.
+    
+    Args:
+    url (str): The URL to open.
+    """
+    try:
+        # Command to open Microsoft Edge with the specified URL
+        command = f"start msedge {url}"
+        # Execute the command using subprocess
+        subprocess.run(command, shell=True, check=True)
+        print("URL opened successfully in Microsoft Edge.")
+    except subprocess.CalledProcessError as e:
+        # Handle cases where the subprocess call fails
+        print(f"Failed to open URL: {e}")
+    except Exception as e:
+        # Handle other exceptions
+        print(f"An error occurred: {e}")
+
+def open_url_in_chrome(url):
+    """
+    Opens a URL in Google Chrome using a Bash command.
+    
+    Args:
+    url (str): The URL to open.
+    """
+    try:
+        # Command to open Microsoft Edge with the specified URL
+        command = f"start chrome {url}"
+        # Execute the command using subprocess
+        subprocess.run(command, shell=True, check=True)
+        print("URL opened successfully in Google Chrome.")
+    except subprocess.CalledProcessError as e:
+        # Handle cases where the subprocess call fails
+        print(f"Failed to open URL: {e}")
+    except Exception as e:
+        # Handle other exceptions
+        print(f"An error occurred: {e}")
 
 if __name__ == '__main__':
     serve(app, host='0.0.0.0', port=5000)
