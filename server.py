@@ -3,10 +3,9 @@ from flask_login import LoginManager, UserMixin, login_user, login_required, log
 from werkzeug.security import generate_password_hash, check_password_hash
 from waitress import serve
 import subprocess
-import sys
 
 app = Flask(__name__)
-app.secret_key = 'your_secret_key'  # Change to a random secret key
+app.secret_key = 'change me and use something safe for Pete's'
 
 # Configuring Flask-Login
 login_manager = LoginManager()
@@ -15,7 +14,7 @@ login_manager.login_view = 'login'
 
 # In-memory user store
 users = {
-    'admin': generate_password_hash('password123')
+    'change': generate_password_hash('me')
 }
 
 class User(UserMixin):
@@ -62,32 +61,6 @@ def home():
 
 
 def open_url_in_edge(url):
-    """
-    Opens a URL in Microsoft Edge using a Bash command.
-    
-    Args:
-    url (str): The URL to open.
-    """
-    try:
-        # Command to open Microsoft Edge with the specified URL
-        command = f"start msedge {url}"
-        # Execute the command using subprocess
-        subprocess.run(command, shell=True, check=True)
-        print("URL opened successfully in Microsoft Edge.")
-    except subprocess.CalledProcessError as e:
-        # Handle cases where the subprocess call fails
-        print(f"Failed to open URL: {e}")
-    except Exception as e:
-        # Handle other exceptions
-        print(f"An error occurred: {e}")
-
-def open_url_in_edge(url):
-    """
-    Opens a URL in Microsoft Edge using a Bash command.
-    
-    Args:
-    url (str): The URL to open.
-    """
     try:
         # Command to open Microsoft Edge with the specified URL
         command = f"start msedge {url}"
@@ -102,12 +75,6 @@ def open_url_in_edge(url):
         print(f"An error occurred: {e}")
 
 def open_url_in_chrome(url):
-    """
-    Opens a URL in Google Chrome using a Bash command.
-    
-    Args:
-    url (str): The URL to open.
-    """
     try:
         # Command to open Microsoft Edge with the specified URL
         command = f"start chrome {url}"
